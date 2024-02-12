@@ -7,18 +7,7 @@ pipeline {
             stages {
                 stage('Conenctar nodo docker') {
                     steps {
-                        sh 'uname -s';
-                        sh 'uname -n';
-                        sh 'uname -r';
-                        sh 'uname -v';
-                        sh 'uname -m';
-                        sh 'hostname';
-                        sh 'whoami';
-                    }
-                }
-                stage('Feedback') {
-                    steps {
-                        echo 'send reports'
+                        sh 'echo "hola"';
                     }
                 }
             }
