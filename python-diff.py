@@ -1,33 +1,3 @@
-#!/bin/bash
-
-# DO NOT EDIT THIS SCRIPT 
-# IT WILL BE AUTOMAGICALLY GENERATED
-
-# Orig users-240122.xlsx
-# Dest users-240123.xlsx
-
-
-# DESPIDOS PROCEDENTES :  
-
-# Deleting Jesus Papi
-deluser jmarchante
-
-
-# NUEVOS CONTRATOS 
-useradd -m -d "/home/icesar" -s "/bin/bash" -u 5006 -c "berlanas, ,452658526, ,hola@.com.ar" "icesar"
-echo "icesar:452658526"| chpasswd 
-
-# NUEVOS CONTRATOS 
-
-sudo usermod -l apepi apepino
-
-sudo usermod -c " apen@yo.com " apepi
-
-sudo chfn -w " 740447599 " dtanke
-
-sudo chfn -f Viktor Thinkk vthin
-exit 0
-lautaro@dns:~/Escritorio/aso$ cat python-diff.py 
 #!/usr/bin/python3
 ### SCRIPT ACTUALIZACIÓN DE USUARIOS DE LAUTARO
 import os
@@ -53,6 +23,7 @@ ws_hoy = wb_hoy.active
 if os.path.exists("meta-script.sh"):
     print(" * Meta Script Cleaning System ")
     os.remove("meta-script.sh")
+
     
 meta_script = open("meta-script.sh",'x')
 meta_script.write("#!/bin/bash\n\n")
@@ -61,12 +32,27 @@ meta_script.write("# IT WILL BE AUTOMAGICALLY GENERATED\n\n")
 meta_script.write("# Orig "+ruta_ayer+"\n")
 meta_script.write("# Dest "+ruta_hoy+"\n")
 
+
+
+if os.path.exists("logs.md"):
+        print(" * Creating Markdown logs ")
+        os.remove("logs.md")
+        
+logs_script = open("logs.md",'x')
+logs_script.write("# Markdown Logs \n")
+logs_script.write("\n ## Logs diarios de la ejecución de meta-script.sh\n\n")
+logs_script.write("\nExecel ayer - "+ruta_ayer+"\n")
+logs_script.write("\nExcel hoy - "+ruta_hoy+"\n")
+
+
+
+
 def nuevosContratos():
     aux_id_hoy=ws_hoy.cell(row=1,column=1).value
     fila_hoy_procesada = 1
     
-    meta_script.write("\n# NUEVOS CONTRATOS \n")
-
+    meta_script.write("\n# NUEVOS CONTRATOS \n\n")
+    logs_script.write("\n# NUEVOS CONTRATOS \n")
     while (aux_id_hoy != None):
         
         aux_id_ayer=ws_ayer.cell(row=1,column=1).value
@@ -90,7 +76,8 @@ def nuevosContratos():
             
             meta_script.write("useradd -m -d \"/home/"+auxUser+"\" -s \"/bin/bash\" -u "+str(auxUID)+" -c \""+auxFull+", ,"+str(auxTel)+", ,"+auxMail+"\" \""+auxUser+"\"\n" )
             meta_script.write("echo \""+auxUser+":"+str(auxTel)+"\"| chpasswd \n")
-            
+           
+            logs_script.write("\nAñadimos al usuario : " +ws_hoy.cell(row=fila_hoy_procesada,column=3).value+"\n")
         
         # Siguiente linea mecanismo 
         fila_hoy_procesada = fila_hoy_procesada + 1
@@ -100,7 +87,9 @@ def modificaciones():
 
     aux_id_hoy=ws_hoy.cell(row=1,column=1).value
     fila_hoy_procesada = 1
-    meta_script.write("\n# NUEVOS CONTRATOS \n")
+    meta_script.write("\n# MODIFICACIONES \n")
+    logs_script.write("\n# MODIFICACIONES \n")
+
 
     while (aux_id_hoy != None):
         
@@ -122,9 +111,13 @@ def modificaciones():
                 if hayCambios :
                     print("\n" + ws_hoy.cell(row=fila_hoy_procesada,column=2).value + " ha cambiado : ")
                     #print(vCambiosUsuario)
+                    logs_script.write("\n Se han realizado cambios en el usario: " + ws_hoy.cell(row=fila_hoy_procesada,column=2).value+ "\n" )
+
                     for campoCambiado in range(0,len(vCambiosUsuario)):
                         auxC = int(vCambiosUsuario[campoCambiado])+2
                         print("  --->   " + vCampos[vCambiosUsuario[campoCambiado]] + " : " + str(ws_hoy.cell(row=fila_hoy_procesada, column=auxC).value) + "  <---")
+                        logs_script.write("\n")
+                        logs_script.write("     " + vCampos[vCambiosUsuario[campoCambiado]] + " = " + str(ws_hoy.cell(row=fila_hoy_procesada, column=auxC).value)+"\n")
                         campocambio = vCampos[vCambiosUsuario[campoCambiado]]
                         #print (campocambio)
                         #print ("Lo que quiero ver")
@@ -157,7 +150,8 @@ def modificaciones():
 def despidos():
 
     meta_script.write("\n\n# DESPIDOS PROCEDENTES :  \n\n")
-
+    logs_script.write("\n\n# DESPIDOS PROCEDENTES :  \n\n")
+    
     aux_id_ayer=ws_ayer.cell(row=1,column=1).value
     fila_ayer_procesada = 1
 
@@ -176,7 +170,7 @@ def despidos():
         
         if despido :
             print(" * Despide a "+ws_ayer.cell(row=fila_ayer_procesada,column=3).value )
-            
+            logs_script.write("Se despidió a  "+ws_ayer.cell(row=fila_ayer_procesada,column=3).value+"\n") 
             meta_script.write("# Deleting "+ws_ayer.cell(row=fila_ayer_procesada,column=3).value+"\n")
             meta_script.write("deluser "+ws_ayer.cell(row=fila_ayer_procesada,column=2).value+"\n")
             meta_script.write("\n")
@@ -199,4 +193,3 @@ meta_script.write("exit 0\n")
 meta_script.close()
 
 sys.exit(0)
-
