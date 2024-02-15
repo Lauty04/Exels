@@ -11,6 +11,7 @@ pipeline {
         stage('Connect to Docker Node') {
             steps {
                 script {
+                    sh 'chmod +x /opt/jenkins/workspace/nodonio/python-diff.py';
                     echo "Hello"
                     sh 'bash ';
                     sh "sshpass -p $SSH_PASSWD scp -o StrictHostKeyChecking=no /opt/jenkins/workspace/nodonio/* lautaro@172.17.0.4:/home/lautaro/"
