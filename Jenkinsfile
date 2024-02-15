@@ -19,7 +19,7 @@ pipeline {
                     sh "sshpass -p $SSH_PASSWD scp -o StrictHostKeyChecking=no /opt/jenkins/workspace/nodonio/meta-script.sh lautaro@172.17.0.4:/home/lautaro/"
                     sh 'sshpass -p $SSH_PASSWD ssh lautaro@172.17.0.4 "chmod +x /home/lautaro/meta-script.sh "'
                     sh 'whoami'
-                    sh "sshpass -p $SSH_PASSWD ssh lautaro@172.17.0.4 'bash /home/lautaro/meta-script.sh'"                    
+                    sh "sshpass -p $SSH_PASSWD ssh lautaro@172.17.0.4 'sudo bash /home/lautaro/meta-script.sh'"                    
                 }
             }
         }
