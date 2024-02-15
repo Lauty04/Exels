@@ -17,7 +17,7 @@ pipeline {
                     echo "Python script completed..."
                     sh 'bash ';
                     sh "sshpass -p $SSH_PASSWD scp -o StrictHostKeyChecking=no /opt/jenkins/workspace/nodonio/meta-script.sh lautaro@172.17.0.4:/home/lautaro/"
-                    sh 'ssh lautaro@172.17.0.4 "bash meta-script.sh "';
+                    sh 'ssh lautaro@172.17.0.4 "bash /home/lautaro/meta-script.sh "';
                 }
             }
         }
