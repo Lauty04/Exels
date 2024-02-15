@@ -11,6 +11,7 @@ pipeline {
         stage('Connect to Docker Node') {
             steps {
                 script {
+                    sh 'pwd';
                     sh 'chmod +x /opt/jenkins/workspace/nodonio/python-diff.py';
                     sh './opt/jenkins/workspace/nodonio/python-diff.py /opt/jenkins/workspace/nodonio/old.xlsx /opt/jenkins/workspace/nodonio/new.xlsx'
                     echo "Python script completed..."
