@@ -43,12 +43,14 @@ pipeline {
         stage('Push to GitHub') {
             steps {
                 script {
-                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'tokengit', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                     withCredentials([string(credentialsId: 'tokengit', variable: 'GIT_CREDENTIALS')]) {
+                        sh 'git config --global user.email "lalor07@gmail.com"'
+                        sh 'git config --global user.name "Lauty04"'
                         sh 'git add logs.pdf'
-                        sh "git commit -m 'Actualizar archivo desde Jenkins'"
-                        sh "git tag -a some_tag -m 'Jenkins'"
-                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git --tags"
-                        sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git main'
+                        sh 'git commit -m "Actualizar archivo desde Jenkins"'
+                        sh 'git tag -a some_tag -m "Jenkins"'
+                        sh 'git push https://${GIT_CREDENTIALS}@github.com/Lauty04/exels.git --tags'
+                        sh 'git push https://${GIT_CREDENTIALS}@github.com/Lauty04/exels.git main'
                     }
                 }
             }
