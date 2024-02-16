@@ -6,6 +6,7 @@ pipeline {
     }
     environment {
         SSH_PASSWD = '12345'
+        GIT_CREDENTIALS = credentials('tokengit')
     }
     stages {
         stage('Connect to Docker Node') {
