@@ -41,7 +41,6 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'tokengit', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git HEAD:main')
                     }
-                    sh 'pepino'
                 }
             }
         }
