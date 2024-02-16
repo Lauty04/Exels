@@ -52,7 +52,7 @@ stage('Push to GitHub') {
                                 // Delete existing tag if it exists
                                 //sh 'git tag -d somun  || true'
         
-                                sh 'git tag -a somuing_tag -m "Jenkins"'
+                                sh 'git tag -a somu -m "Jenkins"'
                                 
                                 // Check if 'main' branch exists, create it if not
                                 sh 'git rev-parse --verify main || git branch main'
