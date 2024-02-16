@@ -25,6 +25,14 @@ pipeline {
                 }
 
             }
+            steps {
+                script {
+                    //Pasar MD A PDF
+                    sh 'pandoc logs.md --pdf-engine=xelatex -o logs.pdf';
+                    
+                }
+
+            }
             
         }
                 stage('Push to GitHub') {
@@ -33,15 +41,13 @@ pipeline {
                     // Clonar el repositorio desde GitHub
                     sh 'git config --global user.email "lalor07@gmail.com"'
                     sh 'git config --global user.name "Tu Nombre"'
-                    git 'https://tu-usuario:tu-token@github.com/tu-usuario/tu-repositorio.git'
+                    git https://lauty04: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@github.com/Lauty04/exels.git
 
-                    // Hacer las modificaciones necesarias en el archivo
-                    sh 'echo "Contenido modificado" > miarchivo.txt'
 
                     // Hacer commit y push de los cambios
-                    sh 'git add miarchivo.txt'
+                    sh 'git add logs.pdf'
                     sh 'git commit -m "Actualizar archivo desde Jenkins"'
-                    sh 'git push origin nombre-de-tu-rama'
+                    sh 'git push origin main'
                 }
             }
         }
