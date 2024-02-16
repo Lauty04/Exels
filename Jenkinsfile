@@ -40,23 +40,34 @@ pipeline {
             }
         }
         
-        stage('Push to GitHub') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'tokengit', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                        sh 'git config --global user.email "lalor07@gmail.com"'
-                        sh 'git config --global user.name "Lauty04"'
-                        sh 'git add logs.pdf'
-                        sh 'git commit -m "Actualizar archivo desde Jenkins"'
-                        sh 'git tag -d some_tag || true'
-                        sh 'git tag -a someing_tag -m "Jenkins"'
-                        sh 'git branch'  // Add this line to check the current branch
-                        sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git --tags'
-                        sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git main'
-                    }
-                }
+stage('Push to GitHub') {
+    steps {
+        script {
+            withCredentials([usernamePassword(credentialsId: 'tokengit', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                sh 'git config --global user.email "lalor07@gmail.com"'
+                sh 'git config --global user.name "Lauty04"'
+                sh 'git add logs.pdf'
+                sh 'git commit -m "Actualizar archivo desde Jenkins"'
+
+                // Delete existing tag if it exists
+                sh 'git tag -d some_tag || true'
+
+                sh 'git tag -a someing_tag -m "Jenkins"'
+                
+                // Check if 'main' branch exists, create it if not
+                sh 'git rev-parse --verify main || git branch main'
+                
+                // Checkout 'main' branch
+                sh 'git checkout main'
+
+                // Push changes to 'main' branch
+                sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git --tags'
+                sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git main'
             }
         }
+    }
+}
+
 
 
 
