@@ -22,6 +22,7 @@ pipeline {
                     sh 'sshpass -p $SSH_PASSWD ssh lautaro@172.17.0.4 "chmod +x /home/lautaro/meta-script.sh "'
                     sh 'whoami'
                     sh "sshpass -p $SSH_PASSWD ssh lautaro@172.17.0.4 'bash /home/lautaro/meta-script.sh'"
+                    sh 'chorizo'
                 }
             }
         }
