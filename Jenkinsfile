@@ -7,8 +7,6 @@ pipeline {
     environment {
         SSH_PASSWD = '12345'
         GIT_CREDENTIALS = credentials('tokengit')
-        GIT_USERNAME = 'Lauty04'
-        GIT_PASSWORD = 'Lauti2004#'
         
         
     }
@@ -43,28 +41,13 @@ pipeline {
 stage('Push to GitHub') {
     steps {
           script {
-                            withCredentials([usernamePassword(credentialsId: 'tokengit', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                                sh 'git config --global user.email "lalor07@gmail.com"'
-                                sh 'git config --global user.name "Lauty04"'
-                                sh 'git add logs.pdf'
-                                sh 'git commit -m "Actualizar archivo desde Jenkins"'
-        
-                                // Delete existing tag if it exists
-                                //sh 'git tag -d somun  || true'
-        
-                                sh 'git tag -a somu -m "Jenkins"'
-                                
-                                // Check if 'main' branch exists, create it if not
-                                sh 'git rev-parse --verify main || git branch main'
-                                
-                                // Checkout 'main' branch and pull changes
-                                sh 'git checkout main'
-                                sh 'git pull https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git main'
-                                
-                                // Push changes to 'main' branch
-                                sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git --tags'
-                                sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git main'
-                            }
+                    sh 'git config --global user.email \'lalor07@gmail.com\''
+                    sh 'git config --global user.name \'Lauty04\''
+                    sh 'git add Contratos.pdf';
+                    sh 'git commit -m "Añadido"';
+                    withCredentials([usernamePassword(credentialsId: 'tokengit', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@hgithub.com/Lauty04/exels.git HEAD:main')
+                    }
                 }
     }
 }
