@@ -48,7 +48,10 @@ pipeline {
         stage('Telegram message') {
             steps {
                 script {
-                    post {
+                }
+            }
+        }
+        post {
                         success {
                           sh 'curl -X POST -H \'Content-Type: application/json\' -d \'{"chat_id": "5419757145", "text": "The work is completed", "disable_notification": false}\'  https://api.telegram.org/bot6421695221:AAFvC_xdV-RTxlAuH0_Fdahu0TMLXFHkWgU/sendMessage'
                         }
@@ -58,8 +61,5 @@ pipeline {
                         }
                     
                       }
-                }
-            }
-        }
     }
 }
