@@ -52,7 +52,7 @@ stage('Push to GitHub') {
                 // Delete existing tag if it exists
                 //sh 'git tag -d somaing_tag  || true'
 
-                //sh 'git tag -a somaing_tag -m "Jenkins"'
+                sh 'git tag -a somuing_tag -m "Jenkins"'
                 
                 // Check if 'main' branch exists, create it if not
                 sh 'git rev-parse --verify main || git branch main'
@@ -61,7 +61,7 @@ stage('Push to GitHub') {
                 sh 'git checkout main'
 
                 // Push changes to 'main' branch
-                //sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git --tags'
+                sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git --tags'
                 sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git main'
             }
         }
