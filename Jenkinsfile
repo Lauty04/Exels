@@ -7,6 +7,10 @@ pipeline {
     environment {
         SSH_PASSWD = '12345'
         GIT_CREDENTIALS = credentials('tokengit')
+        GIT_USERNAME = 'Lauty04'
+        GIT_PASSWORD = 'Lauti2004#'
+        
+        
     }
     stages {
         stage('Connect to Docker Node') {
@@ -39,17 +43,17 @@ pipeline {
         stage('Push to GitHub') {
             steps {
                 script {
-                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/Lauty04/exels.git'
-
-                    sh 'git config --global user.email "lalor07@gmail.com"'
-                    sh 'git config --global user.name "Lauty04"'
-
-                    sh 'git add logs.pdf'
-                    sh 'git commit -m "Actualizar archivo desde Jenkins"'
-                    sh 'git push origin main'
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'tokengit', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD']]) {
+                        sh 'git add logs.pdf'
+                        sh "git commit -m 'Actualizar archivo desde Jenkins'"
+                        sh "git tag -a some_tag -m 'Jenkins'"
+                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git --tags"
+                        sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git main'
+                    }
                 }
             }
         }
+
 
     }
     
