@@ -18,7 +18,6 @@ pipeline {
                     echo "Python script completed..."
                     sh 'bash '
                     sh "sshpass -p $SSH_PASSWD scp -o StrictHostKeyChecking=no /opt/jenkins/workspace/nodonio/meta-script.sh lautaro@172.17.0.4:/home/lautaro/"
-                    // sh "sshpass -p $SSH_PASSWD ssh lautaro@172.17.0.4 'sudo su'" 
                     sh 'sshpass -p $SSH_PASSWD ssh lautaro@172.17.0.4 "chmod +x /home/lautaro/meta-script.sh "'
                     sh 'whoami'
                     sh "sshpass -p $SSH_PASSWD ssh lautaro@172.17.0.4 'bash /home/lautaro/meta-script.sh'"
@@ -45,21 +44,17 @@ pipeline {
                 }
             }
         }
-        stage('Telegram message') {
-            steps {
-                script {
-                }
+    }
+    post {
+        success {
+            script {
+                sh 'curl -X POST -H \'Content-Type: application/json\' -d \'{"chat_id": "5419757145", "text": "The work is completed", "disable_notification": false}\'  https://api.telegram.org/bot6421695221:AAFvC_xdV-RTxlAuH0_Fdahu0TMLXFHkWgU/sendMessage'
             }
         }
-        post {
-                        success {
-                          sh 'curl -X POST -H \'Content-Type: application/json\' -d \'{"chat_id": "5419757145", "text": "The work is completed", "disable_notification": false}\'  https://api.telegram.org/bot6421695221:AAFvC_xdV-RTxlAuH0_Fdahu0TMLXFHkWgU/sendMessage'
-                        }
-                    
-                        failure {
-                          sh 'curl -X POST -H \'Content-Type: application/json\' -d \'{"chat_id": "5419757145", "text": "Failed work :( ", "disable_notification": false}\'  https://api.telegram.org/bot6421695221:AAFvC_xdV-RTxlAuH0_Fdahu0TMLXFHkWgU/sendMessage'
-                        }
-                    
-                      }
+        failure {
+            script {
+                sh 'curl -X POST -H \'Content-Type: application/json\' -d \'{"chat_id": "5419757145", "text": "Failed work :( ", "disable_notification": false}\'  https://api.telegram.org/bot6421695221:AAFvC_xdV-RTxlAuH0_Fdahu0TMLXFHkWgU/sendMessage'
+            }
+        }
     }
 }
