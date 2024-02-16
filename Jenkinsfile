@@ -38,7 +38,7 @@ pipeline {
         stage('Push to GitHub') {
             steps {
                 script {
-                    git url: 'https://lauty04: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@github.com/Lauty04/exels.git'
+                    git credentialsId: "${tokengit}", url: 'https://github.com/Lauty04/exels.git'
 
                     sh 'git config --global user.email "lalor07@gmail.com"'
                     sh 'git config --global user.name "Lauty04"'
