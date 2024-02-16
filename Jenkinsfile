@@ -50,7 +50,7 @@ stage('Push to GitHub') {
                                 sh 'git commit -m "Actualizar archivo desde Jenkins"'
         
                                 // Delete existing tag if it exists
-                                //sh 'git tag -d somaing_tag  || true'
+                                //sh 'git tag -d somun  || true'
         
                                 sh 'git tag -a somuing_tag -m "Jenkins"'
                                 
