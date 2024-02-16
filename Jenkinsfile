@@ -46,7 +46,7 @@ stage('Push to GitHub') {
                     sh 'git add logs.pdf';
                     sh 'git commit -m "Añadido"';
                     withCredentials([usernamePassword(credentialsId: 'tokengit', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@hgithub.com/Lauty04/exels.git HEAD:main')
+                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git HEAD:main')
                     }
                 }
     }
