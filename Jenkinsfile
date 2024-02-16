@@ -39,7 +39,7 @@ pipeline {
         stage('Push to GitHub') {
             steps {
                 script {
-                    git credentialsId: "${tokengit}", url: 'https://github.com/Lauty04/exels.git'
+                    git credentialsId: "${GIT_CREDENTIALS}", url: 'https://github.com/Lauty04/exels.git'
 
                     sh 'git config --global user.email "lalor07@gmail.com"'
                     sh 'git config --global user.name "Lauty04"'
