@@ -48,6 +48,7 @@ pipeline {
                         sh 'git config --global user.name "Lauty04"'
                         sh 'git add logs.pdf'
                         sh 'git commit -m "Actualizar archivo desde Jenkins"'
+                        sh 'git tag -d some_tag || true'
                         sh 'git tag -a some_tag -m "Jenkins"'
                         sh 'git branch'  // Add this line to check the current branch
                         sh 'git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git --tags'
