@@ -49,16 +49,16 @@ pipeline {
         stage('Telegram message') {
             steps {
                 script {
-                    def chatId = '5419757145'
-                    def token = '6421695221:AAFvC_xdV-RTxlAuH0_Fdahu0TMLXFHkWgU'
-                    message = 'We don´t know'
-                    if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
-                        message = 'The work is completed'
-                    } else {
-                        message = 'Failed work'
-                    }
-                    sh "curl -X POST -H 'Content-Type: application/json' -d '{\"chat_id\": \"${chatId}\", \"text\": \"${message}\", \"disable_notification\": false}' https://api.telegram.org/bot${token}/sendMessage";
-
+                    post {
+                        success {
+                          sh 'curl -X POST -H \'Content-Type: application/json\' -d \'{"chat_id": "5419757145", "text": "The work is completed", "disable_notification": false}\'  https://api.telegram.org/bot6421695221:AAFvC_xdV-RTxlAuH0_Fdahu0TMLXFHkWgU/sendMessage'
+                        }
+                    
+                        failure {
+                          sh 'curl -X POST -H \'Content-Type: application/json\' -d \'{"chat_id": "5419757145", "text": "Failed work :( ", "disable_notification": false}\'  https://api.telegram.org/bot6421695221:AAFvC_xdV-RTxlAuH0_Fdahu0TMLXFHkWgU/sendMessage'
+                        }
+                    
+                      }
                 }
             }
         }
