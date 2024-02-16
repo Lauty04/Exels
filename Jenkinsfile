@@ -25,32 +25,31 @@ pipeline {
                 }
 
             }
-            steps {
-                script {
-                    //Pasar MD A PDF
-                    sh 'pandoc logs.md --pdf-engine=xelatex -o logs.pdf';
-                    
-                }
-
-            }
             
         }
-                stage('Push to GitHub') {
+        stage('Convert MD to PDF') {
             steps {
                 script {
-                    // Clonar el repositorio desde GitHub
+                    sh 'pandoc logs.md --pdf-engine=xelatex -o logs.pdf'
+                }
+            }
+        }
+        
+        stage('Push to GitHub') {
+            steps {
+                script {
+                    git url: 'https://lauty04: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@github.com/Lauty04/exels.git'
+
                     sh 'git config --global user.email "lalor07@gmail.com"'
-                    sh 'git config --global user.name "Tu Nombre"'
-                    git https://lauty04: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@github.com/Lauty04/exels.git
+                    sh 'git config --global user.name "Lauty04"'
 
-
-                    // Hacer commit y push de los cambios
                     sh 'git add logs.pdf'
                     sh 'git commit -m "Actualizar archivo desde Jenkins"'
                     sh 'git push origin main'
                 }
             }
         }
+
     }
     
 }
