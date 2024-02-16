@@ -50,7 +50,11 @@ pipeline {
                 script {
                     def chatId = '5419757145'
                     def token = '6421695221:AAFvC_xdV-RTxlAuH0_Fdahu0TMLXFHkWgU'
-                    def message = 'The work is completed'
+                    if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
+                        def message = 'The work is completed'
+                    } else {
+                        def message = 'Failed work'
+                    }
                     sh "curl -X POST -H 'Content-Type: application/json' -d '{\"chat_id\": \"${chatId}\", \"text\": \"${message}\", \"disable_notification\": false}' https://api.telegram.org/bot${token}/sendMessage";
 
                 }
