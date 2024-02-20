@@ -9,7 +9,7 @@ pipeline {
         GIT_CREDENTIALS = credentials('tokengit')
     }
     stages {
-        stage('Download and execute the script in nodo1') {
+        stage('Download and run the script in nodo1') {
             steps {
                 script {
                     sh 'pwd'
@@ -19,7 +19,7 @@ pipeline {
                 }
             }
         }
-        stage('Send and execute the script in nodo2') { 
+        stage('The script was sent and executed on node2') { 
             steps {
                     sh 'bash '
                     sh "sshpass -p $SSH_PASSWD scp -o StrictHostKeyChecking=no /opt/jenkins/workspace/nodonio/meta-script.sh lautaro@172.17.0.4:/home/lautaro/"
