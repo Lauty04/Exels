@@ -9,19 +9,23 @@ pipeline {
         GIT_CREDENTIALS = credentials('tokengit')
     }
     stages {
-        stage('Connect to Docker Node') {
+        stage('Download and execute the script in nodo1') {
             steps {
                 script {
                     sh 'pwd'
                     sh 'chmod +x /opt/jenkins/workspace/nodonio/python-diff.py'
                     sh './python-diff.py old.xlsx new.xlsx'
                     echo "Python script completed..."
+                }
+            }
+        }
+        stage('Send and execute the script in nodo2') { 
+            steps {
                     sh 'bash '
                     sh "sshpass -p $SSH_PASSWD scp -o StrictHostKeyChecking=no /opt/jenkins/workspace/nodonio/meta-script.sh lautaro@172.17.0.4:/home/lautaro/"
                     sh 'sshpass -p $SSH_PASSWD ssh lautaro@172.17.0.4 "chmod +x /home/lautaro/meta-script.sh "'
                     sh 'whoami'
                     sh "sshpass -p $SSH_PASSWD ssh lautaro@172.17.0.4 'bash /home/lautaro/meta-script.sh'"
-                }
             }
         }
         stage('Convert MD to PDF') {
@@ -41,6 +45,16 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'tokengit', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Lauty04/exels.git HEAD:main')
                     }
+                }
+            }
+        }
+        stage('Send logs.pdf by telegram') {
+            steps {
+                script {
+                    def chatId = '5419757145'
+                    def token = '6421695221:AAFvC_xdV-RTxlAuH0_Fdahu0TMLXFHkWgU'
+                    def documentPath = 'logs.pdf'
+                    sh "curl -F chat_id=${chatId} -F document=@${documentPath} https://api.telegram.org/bot${token}/sendDocument"
                 }
             }
         }
